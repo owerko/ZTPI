@@ -21,6 +21,6 @@ with open('ztpi_data.txt', 'r') as f:
         A.append(float(row[1]))
 
 fig, ax = plt.subplots()
-ax.plot(t,A)
+ax.plot(t, A)
 # ax.plot(amplitude_envelope)
 plt.show()
