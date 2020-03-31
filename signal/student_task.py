@@ -24,9 +24,16 @@ with open('data_4_rbin53_ZTPI.txt', 'r') as f:
         Am.append(float(row[1]))
 # print(t, A)
 
-# for index, item in enumerate(t):
-#     if item > 100 and item < 101:
-#         print(index, item)
+for index, item in enumerate(t):
+    if item > 302 and item < 303:
+        print(index, item)
+
+Aex=Am[5388:7151]
+tex=tm[5388:7151]
+
+Aex2 = A[56550:60425]
+tex2 = t[56550:60425]
+
 
 # print(statistics.mean(A))
 # A2 = [x - statistics.mean(A) for x in A]
@@ -46,5 +53,50 @@ fig, ax = plt.subplots()
 ax.plot(tm, Am)
 # ax.plot(t2, amplitude_envelope)
 ax.set_xlabel('Time')
+ax.set_ylabel('Amplitude')
+plt.show()
+
+fig, ax = plt.subplots()
+ax.plot(tex, Aex)
+# ax.plot(t2, amplitude_envelope)
+ax.set_xlabel('Time')
+ax.set_ylabel('Amplitude')
+plt.show()
+
+fig, ax = plt.subplots()
+ax.plot(tex2, Aex2)
+# ax.plot(t2, amplitude_envelope)
+ax.set_xlabel('Time')
+ax.set_ylabel('Amplitude')
+plt.show()
+
+fourierTransform = np.fft.fft(Aex) / len(Aex)  # Normalize amplitude
+fourierTransform = fourierTransform[range(int(len(Aex) / 2))]  # Exclude sampling frequency
+tpCount = len(Aex)
+values = np.arange(int(tpCount / 2))
+timePeriod = tpCount / 200
+frequencies = values / timePeriod
+
+# Frequency domain representation
+fig, ax = plt.subplots()
+ax.set_title('Fourier transform depicting the frequency components')
+ax.plot(frequencies, abs(fourierTransform))
+ax.set_xlabel('Frequency')
+ax.set_ylabel('Amplitude')
+plt.show()
+
+
+fourierTransform = np.fft.fft(Aex2) / len(Aex2)  # Normalize amplitude
+fourierTransform = fourierTransform[range(int(len(Aex2) / 2))]  # Exclude sampling frequency
+tpCount = len(Aex2)
+values = np.arange(int(tpCount / 2))
+timePeriod = tpCount / 200
+frequencies = values / timePeriod
+
+# Frequency domain representation
+fig, ax = plt.subplots()
+ax.set_title('Fourier transform depicting the frequency components')
+ax.plot(frequencies, abs(fourierTransform))
+ax.set_xlabel('Frequency')
 ax.set_ylabel('Amplitude')
 plt.show()
