@@ -31,10 +31,11 @@ A3 = A2[int(0.05 * len(t)):int(0.95 * len(t))]
 amplitude_envelope = np.abs(hilbert(A3))
 
 #
-# def damping(x, a, b, c):
-#     return A*np.exp(-b*x) + c
-#
-# param, param_conv = curve_fit(damping, t2, A3, p0=[1, 1, 1])
+def damping(x, a, b, c):
+    return a*np.exp(-b*x) +c
+
+param, param_conv = curve_fit(damping, t2, A3)
+print(f'a: {param[0]}, b: {param[1]} c: {param[2]}')
 
 
 fig, ax = plt.subplots()
