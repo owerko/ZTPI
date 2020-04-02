@@ -2,6 +2,7 @@ from scipy.signal import hilbert
 import numpy as np
 import matplotlib.pyplot as plt
 import statistics
+import math
 
 
 def plot_timeseriaes(t, A):
@@ -56,24 +57,40 @@ for index, item in enumerate(t):
     if item > 302 and item < 303:
         print(index, item)
 
-Aex = Am[5388:7151]
+Amex = Am[5388:7151]
+tmp = statistics.mean(Amex)
+
+Aex = [x - tmp for x in Amex]
 tex = tm[5388:7151]
 
-Aex2 = A[56550:60425]
+analytical_signal = hilbert(Aex)
+amplitude_envelope = np.abs(analytical_signal)
+
+fig, ax = plt.subplots()
+ax.plot(tex, Aex, label='signal')
+ax.plot(tex, amplitude_envelope, label='envelope')
+plt.show()
+
+
+Amex2 = A[56550:60425]
 tex2 = t[56550:60425]
+tmp = statistics.mean(Amex2)
+
+Aex2 = [x -tmp for x in Amex2]
+analytical_signal = hilbert(Aex2)
+amplitude_envelope = np.abs(analytical_signal)
+
+fig, ax = plt.subplots()
+ax.plot(tex2, Aex2, label='signal')
+ax.plot(tex2, amplitude_envelope, label='envelope')
+plt.show()
+
+print(len(Aex2))
 
 plot_timeseriaes(t, A)
 plot_timeseriaes(tm, Am)
 plot_timeseriaes(tex, Aex)
 plot_timeseriaes(tex2, Aex2)
-
-# fourierTransform = np.fft.fft(Aex) / len(Aex)  # Normalize amplitude
-# fourierTransform = fourierTransform[range(int(len(Aex) / 2))]  # Exclude sampling frequency
-# tpCount = len(Aex)
-# values = np.arange(int(tpCount / 2))
-# timePeriod = tpCount / 200
-# frequencies = values / timePeriod
-
 frequencies, fourierTransform = fft_calc(200, Aex)
 plot_fft(frequencies, fourierTransform)
 
@@ -81,26 +98,8 @@ frequencies, fourierTransform = fft_calc(200, Aex2)
 plot_fft(frequencies, fourierTransform)
 
 
-# # Frequency domain representation
-# fig, ax = plt.subplots()
-# ax.set_title('Fourier transform depicting the frequency components')
-# ax.plot(frequencies, abs(fourierTransform))
-# ax.set_xlabel('Frequency')
-# ax.set_ylabel('Amplitude')
-# plt.show()
 
 
-# fourierTransform = np.fft.fft(Aex2) / len(Aex2)  # Normalize amplitude
-# fourierTransform = fourierTransform[range(int(len(Aex2) / 2))]  # Exclude sampling frequency
-# tpCount = len(Aex2)
-# values = np.arange(int(tpCount / 2))
-# timePeriod = tpCount / 200
-# frequencies = values / timePeriod
-#
-# # Frequency domain representation
-# fig, ax = plt.subplots()
-# ax.set_title('Fourier transform depicting the frequency components')
-# ax.plot(frequencies, abs(fourierTransform))
-# ax.set_xlabel('Frequency')
-# ax.set_ylabel('Amplitude')
-# plt.show()
+
+
+

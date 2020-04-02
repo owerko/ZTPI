@@ -1,7 +1,9 @@
 from scipy.signal import hilbert
+from scipy.optimize import curve_fit
 import numpy as np
 import matplotlib.pyplot as plt
 import statistics
+import math
 
 sensor = np.loadtxt('signal.txt')
 analytical_signal = hilbert(sensor)
@@ -23,10 +25,17 @@ with open('ztpi_data.txt', 'r') as f:
 
 print(statistics.mean(A))
 A2 = [x - statistics.mean(A) for x in A]
-t2 = t[int(0.05*len(t)):int(0.95*len(t))]
-A3 = A2[int(0.05*len(t)):int(0.95*len(t))]
+t2 = t[int(0.05 * len(t)):int(0.95 * len(t))]
+A3 = A2[int(0.05 * len(t)):int(0.95 * len(t))]
 
 amplitude_envelope = np.abs(hilbert(A3))
+
+#
+# def damping(x, a, b, c):
+#     return A*np.exp(-b*x) + c
+#
+# param, param_conv = curve_fit(damping, t2, A3, p0=[1, 1, 1])
+
 
 fig, ax = plt.subplots()
 ax.plot(t, A2)
